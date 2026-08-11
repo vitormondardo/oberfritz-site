@@ -7,7 +7,8 @@ const CONFIG = {
   whatsapp: "5547996176238",            // <<< TROCAR: DDI+DDD+número, só dígitos
   email: "oberfritz2026@gmail.com",    // <<< TROCAR
   instagram: "https://instagram.com/oberfritzz",
-  linkedin: "www.linkedin.com/in/vitor-mondardo",
+  linkedin: "https://www.linkedin.com/in/vitor-mondardo",
+  linkedinEmpresa: "https://www.linkedin.com/in/ober-fritz/",
   github: "https://github.com/vitormondardo",
   mensagemPadrao: "Olá! Vim pelo site da OberFritz e quero entender como automatizar a operação da minha empresa."
 };
@@ -30,7 +31,7 @@ function aplicarContatos() {
     el.href = "mailto:" + CONFIG.email;
     if (el.dataset.email === "texto") el.textContent = CONFIG.email;
   });
-  const redes = { instagram: CONFIG.instagram, linkedin: CONFIG.linkedin, github: CONFIG.github };
+  const redes = { instagram: CONFIG.instagram, linkedin: CONFIG.linkedin, "linkedin-empresa": CONFIG.linkedinEmpresa, github: CONFIG.github };
   document.querySelectorAll("[data-rede]").forEach((el) => {
     el.href = redes[el.dataset.rede] || "#";
     el.target = "_blank";

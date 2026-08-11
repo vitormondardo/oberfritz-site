@@ -133,30 +133,63 @@ Na Cloudflare, o status do domínio muda de *Pending Nameserver Update* para
 
 ---
 
-## Etapa 4 — Ligar o domínio ao Pages
+## Etapa 4 — Ligar o domínio ao Pages (raiz **e** www)
 
 Só faça esta etapa **depois** de o domínio aparecer como **Active** na Cloudflare.
 
+**Decisão adotada:** `oberfritz.com.br` (sem www) é o endereço oficial, e
+`www.oberfritz.com.br` **funciona** mas redireciona para ele. Assim o site tem um
+endereço só na barra e um só no Google — é o que o `canonical` e o `sitemap.xml`
+do código já assumem.
+
+### 4.1 Cadastrar os dois domínios
+
+Os dois precisam ser cadastrados como custom domain. Se você cadastrar só a raiz,
+`www.oberfritz.com.br` dá **erro de certificado SSL** — a regra de redirect
+sozinha não resolve, porque o certificado precisa cobrir o `www` antes de
+qualquer redirecionamento acontecer.
+
 1. **Compute (Workers & Pages)** → projeto `oberfritz-site` → aba **Custom domains**.
-2. **Set up a domain** → digite `oberfritz.com.br` → **Continue** → **Activate domain**.
-3. Repita o processo para `www.oberfritz.com.br`.
+2. **Set up a domain** → `oberfritz.com.br` → **Continue** → **Activate domain**.
+3. **Set up a domain** de novo → `www.oberfritz.com.br` → **Continue** → **Activate domain**.
 
 A Cloudflare cria os registros DNS sozinha (um `CNAME` para `www` e um registro
-achatado na raiz) e emite o certificado SSL automaticamente. O certificado leva
-de alguns minutos até ~15 minutos para ficar ativo.
+achatado na raiz) e emite o certificado SSL para ambos automaticamente. Leva de
+alguns minutos até ~15 minutos.
 
-### Redirecionar www → domínio raiz
+**Neste ponto os dois endereços já abrem o site.** O passo 4.2 é o que faz o
+`www` redirecionar em vez de servir uma cópia.
 
-Para o site ter um endereço só (bom para SEO):
+### 4.2 Redirecionar www → raiz
 
-1. No painel do domínio: **Rules** → **Redirect Rules** → **Create rule**.
+1. No painel do **domínio** (não do projeto Pages): **Rules** → **Redirect Rules**
+   → **Create rule**.
 2. Nome: `www para raiz`.
-3. **If** → Custom filter expression → campo `Hostname` → operador `equals` →
-   valor `www.oberfritz.com.br`.
-4. **Then** → Type: `Dynamic` → Expression:
-   `concat("https://oberfritz.com.br", http.request.uri.path)`
-   → Status code: `301`.
+3. **If** → *Custom filter expression*:
+   - Field: `Hostname` · Operator: `equals` · Value: `www.oberfritz.com.br`
+4. **Then** → Type: **Dynamic** → Expression:
+
+   ```
+   concat("https://oberfritz.com.br", http.request.uri.path)
+   ```
+
+   - Status code: `301`
+   - Marque **Preserve query string**
 5. **Deploy**.
+
+> Usar `Dynamic` com `http.request.uri.path` preserva o caminho: quem acessar
+> `www.oberfritz.com.br/planos` cai em `oberfritz.com.br/planos`, e não na home.
+> Um redirect estático mandaria tudo para a raiz.
+
+### 4.3 Testar
+
+```bash
+curl -sI https://www.oberfritz.com.br/planos | findstr /i "HTTP location"
+```
+
+Esperado: `HTTP/2 301` e `location: https://oberfritz.com.br/planos`.
+
+No Linux/macOS, troque `findstr /i` por `grep -i`.
 
 ---
 
@@ -200,6 +233,9 @@ painel, em **Deployments** → **Rollback**.
 | Registro.br recusa os nameservers | Domínio ainda não foi adicionado na Cloudflare | Faça o passo 3.1 primeiro e tente de novo |
 | Domínio preso em *Pending Nameserver Update* | Propagação ainda em andamento | Aguarde até 24h; confira com `nslookup -type=NS` |
 | Site abre em `.pages.dev` mas não no domínio | Custom domain não foi ativado | Etapa 4 |
+| `www` dá erro de certificado / "não seguro" | `www.oberfritz.com.br` não foi cadastrado como custom domain | Etapa 4.1 — cadastre os **dois** domínios |
+| `www` abre o site mas não redireciona | Falta a Redirect Rule | Etapa 4.2 |
+| `www/planos` cai na home em vez de `/planos` | Redirect estático em vez de dinâmico | Use a expressão `concat(...)` da Etapa 4.2 |
 | Erro de certificado / aviso de "não seguro" | SSL ainda sendo emitido | Aguarde ~15 min após ativar o domínio |
 | CSS antigo depois de publicar | Cache do navegador | `Ctrl+F5`; o `_headers` já limita o cache de CSS a 1 hora |
 | Alteração não apareceu no site | Build do Pages falhou | Painel → **Deployments** → veja o log do último deploy |

@@ -664,6 +664,8 @@ p:last-child{margin-bottom:0}
   transition:background .25s,color .25s,border-color .25s,transform .25s var(--ease);
 }
 .social a:hover{background:var(--limao);border-color:var(--limao);color:#04150E;transform:translateY(-3px)}
+.social__empresa{color:var(--menta)}
+.social__empresa:hover{background:#2867B2;border-color:#2867B2;color:#fff}
 .social svg{width:18px;height:18px}
 .footer__base{
   margin-top:54px;padding-top:24px;border-top:1px solid var(--fio);
