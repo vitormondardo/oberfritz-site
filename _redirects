@@ -7,5 +7,4 @@
 /planos        /planos.html        301
 /contato       /contato.html       301
 
-# fragmentos de template não devem ser servidos ao público
-/_src/*        /404.html           404
+# fragmentos de template não são publicados (ver .assetsignore)
