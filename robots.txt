@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /_src/
+
+Sitemap: https://oberfritz.com.br/sitemap.xml

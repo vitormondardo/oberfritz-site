@@ -1,0 +1,28 @@
+# Cloudflare Pages — cabeçalhos por rota
+# Docs: https://developers.cloudflare.com/pages/configuration/headers/
+
+/*
+  X-Frame-Options: SAMEORIGIN
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), microphone=(), camera=(), interest-cohort=()
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+
+# HTML sempre revalidado: o build é estático e sobrescreve os mesmos nomes
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/
+  Cache-Control: public, max-age=0, must-revalidate
+
+# Imagens não mudam de conteúdo sem mudar de nome — cache longo é seguro.
+/assets/img/*
+  Cache-Control: public, max-age=2592000
+
+# CSS e JS são editados no lugar, mantendo o mesmo nome. Cache curto +
+# revalidação para uma correção no site aparecer no mesmo dia, não em um ano.
+/assets/css/*
+  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
+
+/assets/js/*
+  Cache-Control: public, max-age=3600, stale-while-revalidate=86400

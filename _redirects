@@ -1,0 +1,11 @@
+# Cloudflare Pages — redirecionamentos
+# Docs: https://developers.cloudflare.com/pages/configuration/redirects/
+
+# URLs sem .html continuam funcionando (ex.: /quem-somos)
+/quem-somos    /quem-somos.html    301
+/produtos      /produtos.html      301
+/planos        /planos.html        301
+/contato       /contato.html       301
+
+# fragmentos de template não devem ser servidos ao público
+/_src/*        /404.html           404

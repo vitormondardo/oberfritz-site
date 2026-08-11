@@ -1,0 +1,23 @@
+# Sistema operacional
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
+
+# Editores
+.vscode/
+.idea/
+*.swp
+*~
+
+# Python (script de build)
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Ferramentas de deploy
+.wrangler/
+node_modules/
+.env
+.env.*
