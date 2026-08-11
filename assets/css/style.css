@@ -705,6 +705,11 @@ p:last-child{margin-bottom:0}
   object-fit:contain;object-position:bottom right;
   opacity:.95;pointer-events:none;z-index:0;
 }
+.page-hero__fritz--sq{
+  width:min(320px,32vw);aspect-ratio:1/1;height:auto;max-height:none;
+  object-fit:cover;object-position:18% 62%;border-radius:8px;
+}
+.page-hero__fritz--sq[src*="fritz-escolhendo-planos"]{object-position:52% 58%}
 
 .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
 .card{
