@@ -25,30 +25,27 @@ apenas um CNAME no painel de DNS do Registro.br — não vai funcionar para a ra
 
 ## Etapa 1 — Subir o código para o GitHub
 
-Na pasta do projeto:
-
-```bash
-git init
-git add .
-git commit -m "Site institucional OberFritz"
-git branch -M main
-```
-
-Crie o repositório e envie (via GitHub CLI):
+O repositório local **já está criado e commitado** na branch `main`. Falta só
+criar o repositório remoto e enviar. Na pasta do projeto:
 
 ```bash
 gh repo create oberfritz-site --public --source=. --remote=origin --push
 ```
 
-> Prefere repositório privado? Troque `--public` por `--private`. O Cloudflare
-> Pages funciona com os dois.
+Se o `gh` pedir login, rode antes `gh auth login` e escolha
+*GitHub.com → HTTPS → autenticar pelo navegador*.
 
-Sem o `gh`, crie o repositório manualmente em <https://github.com/new> e depois:
+**Alternativa sem o `gh`:** crie o repositório em <https://github.com/new>
+(nome `oberfritz-site`, público, **sem** marcar "Add a README file" — o projeto
+já tem um) e depois:
 
 ```bash
 git remote add origin https://github.com/vitormondardo/oberfritz-site.git
 git push -u origin main
 ```
+
+Confira em `https://github.com/vitormondardo/oberfritz-site` se os arquivos
+subiram antes de seguir.
 
 ---
 
