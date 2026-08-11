@@ -1,10 +1,8 @@
-# Cloudflare Pages — redirecionamentos
-# Docs: https://developers.cloudflare.com/pages/configuration/redirects/
-
-# URLs sem .html continuam funcionando (ex.: /quem-somos)
-/quem-somos    /quem-somos.html    301
-/produtos      /produtos.html      301
-/planos        /planos.html        301
-/contato       /contato.html       301
-
-# fragmentos de template não são publicados (ver .assetsignore)
+# Cloudflare Workers Assets — redirecionamentos
+# Docs: https://developers.cloudflare.com/workers/static-assets/redirects/
+#
+# Não recrie regras /pagina -> /pagina.html aqui: o Workers Assets já serve
+# /quem-somos a partir de quem-somos.html e redireciona o .html para a URL
+# limpa. Declarar o caminho inverso cria um loop (ERR_TOO_MANY_REDIRECTS).
+#
+# Fragmentos de template não são publicados — ver .assetsignore.
