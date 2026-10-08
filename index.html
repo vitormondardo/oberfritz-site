@@ -34,6 +34,7 @@
       <a href="index.html" class="is-active">Início</a>
       <a href="quem-somos.html">Quem somos</a>
       <a href="produtos.html">Produtos</a>
+      <a href="projetos.html">Projetos</a>
       <a href="planos.html">Planos</a>
       <a href="contato.html">Contato</a>
     </nav>
@@ -47,10 +48,15 @@
   <a href="index.html">Início</a>
   <a href="quem-somos.html">Quem somos</a>
   <a href="produtos.html">Produtos</a>
+  <a href="projetos.html">Projetos</a>
   <a href="planos.html">Planos</a>
   <a href="contato.html">Contato</a>
   <a class="btn" data-wpp="">Falar no WhatsApp</a>
 </div>
+<a class="selo" href="index.html" aria-label="Desenvolvido e hospedado por OberFritz">
+  <span class="selo__txt">Desenvolvido e<br>Hospedado por:</span>
+  <img src="assets/img/logo-oberfritz-circular.png" alt="OberFritz" width="38" height="38">
+</a>
 
 <!-- ============================ HERO ============================ -->
 <section class="hero">
@@ -295,26 +301,35 @@
     <div class="section-head rv">
       <p class="eyebrow">06 · projetos</p>
       <h2>Sistemas que já estão rodando</h2>
-      <p class="lead">Alguns exemplos do tipo de problema que resolvemos — cada um começou como um processo manual que não escalava mais.</p>
+      <p class="lead">Não precisa acreditar na nossa palavra: clique em qualquer um e use o sistema de verdade, sem sair do site.</p>
     </div>
 
     <div class="projetos__grid">
-      <article class="proj rv">
+      <!-- TROCAR: data-demo-url (endereço público do sistema), data-demo-nome e data-demo-embed
+           ("false" se o sistema bloquear iframe: mostra só a imagem + link). Imagem real: assets/img/projetos/ -->
+      <article class="proj rv" data-cat="dados" data-demo-url="https://example.com" data-demo-nome="Painel de operação em tempo real" data-demo-embed="true">
         <div class="proj__vis">
           <div class="mock">
             <div class="mock__bar"><i></i><i></i><i></i></div>
             <div class="bars"><i style="height:46%"></i><i style="height:70%"></i><i style="height:38%"></i><i style="height:88%"></i><i style="height:60%"></i><i style="height:76%"></i></div>
           </div>
+          <span class="proj__live">ao vivo</span>
+          <button type="button" class="proj__abrir proj__cover" aria-label="Ver Painel de operação em tempo real rodando"><span>Ver rodando</span></button>
         </div>
         <div class="proj__body">
           <span class="proj__tag">Dados · BI</span>
           <h3>Painel de operação em tempo real</h3>
           <p>Indicadores de produção, vendas e estoque em uma tela só, alimentados direto do ERP. Fim do relatório montado à mão toda segunda-feira.</p>
           <div class="proj__stack"><span>Python</span><span>PostgreSQL</span><span>API ERP</span></div>
+          <div class="proj__acoes">
+            <button type="button" class="btn btn--sm proj__abrir">Ver rodando</button>
+            <a class="btn btn--sm btn--ghost" href="https://example.com" target="_blank" rel="noopener">Nova aba ↗</a>
+          </div>
         </div>
       </article>
-
-      <article class="proj rv rv-d1">
+      <!-- TROCAR: data-demo-url (endereço público do sistema), data-demo-nome e data-demo-embed
+           ("false" se o sistema bloquear iframe: mostra só a imagem + link). Imagem real: assets/img/projetos/ -->
+      <article class="proj rv rv-d1" data-cat="infra" data-demo-url="https://example.com" data-demo-nome="Ambiente containerizado com deploy automático" data-demo-embed="true">
         <div class="proj__vis">
           <div class="mock">
             <div class="mock__bar"><i></i><i></i><i></i></div>
@@ -324,48 +339,63 @@
               <b>✓</b> no ar em 41s
             </div>
           </div>
+          <span class="proj__live">ao vivo</span>
+          <button type="button" class="proj__abrir proj__cover" aria-label="Ver Ambiente containerizado com deploy automático rodando"><span>Ver rodando</span></button>
         </div>
         <div class="proj__body">
           <span class="proj__tag">Infra · DevOps</span>
           <h3>Ambiente containerizado com deploy automático</h3>
           <p>Aplicação, banco e serviços isolados em containers, com publicação automatizada e rollback em um comando.</p>
           <div class="proj__stack"><span>Docker</span><span>CI/CD</span><span>Linux</span></div>
-        </div>
-      </article>
-
-      <article class="proj rv rv-d2">
-        <div class="proj__vis">
-          <div class="mock">
-            <div class="mock__bar"><i></i><i></i><i></i></div>
-            <div class="kan">
-              <div><u></u><u></u></div>
-              <div><u></u><u></u><u></u></div>
-              <div><u></u></div>
-            </div>
+          <div class="proj__acoes">
+            <button type="button" class="btn btn--sm proj__abrir">Ver rodando</button>
+            <a class="btn btn--sm btn--ghost" href="https://example.com" target="_blank" rel="noopener">Nova aba ↗</a>
           </div>
         </div>
+      </article>
+      <article class="proj rv rv-d2" data-cat="software" data-demo-url="https://landing-3d-scroll.vercel.app" data-demo-nome="Coco Ice" data-demo-embed="true">
+        <div class="proj__vis">
+          <img src="assets/img/projetos/coco-ice.webp" alt="Página inicial do site da Coco Ice, gelo de coco saborizado para drinks" width="960" height="600" loading="lazy">
+          <span class="proj__live">ao vivo</span>
+          <button type="button" class="proj__abrir proj__cover" aria-label="Ver Coco Ice rodando"><span>Ver rodando</span></button>
+        </div>
         <div class="proj__body">
-          <span class="proj__tag">Software sob medida</span>
-          <h3>Sistema de gestão de ordens de serviço</h3>
-          <p>Do pedido à entrega em um fluxo só: abertura, execução, aprovação e faturamento, com histórico e responsável em cada etapa.</p>
-          <div class="proj__stack"><span>Web app</span><span>Multiusuário</span><span>Relatórios</span></div>
+          <span class="proj__tag">Software sob medida · Web</span>
+          <h3>Coco Ice — site de venda de gelo de coco para drinks</h3>
+          <p>Landing page com produto em 3D que acompanha a rolagem, apresentação dos sabores e pedido direto pelo WhatsApp.</p>
+          <div class="proj__stack"><span>Landing page</span><span>Animação 3D</span><span>WhatsApp</span></div>
+          <div class="proj__acoes">
+            <button type="button" class="btn btn--sm proj__abrir">Ver rodando</button>
+            <a class="btn btn--sm btn--ghost" href="https://landing-3d-scroll.vercel.app" target="_blank" rel="noopener">Nova aba ↗</a>
+          </div>
         </div>
       </article>
-
-      <article class="proj rv rv-d3">
+      <!-- TROCAR: data-demo-url (endereço público do sistema), data-demo-nome e data-demo-embed
+           ("false" se o sistema bloquear iframe: mostra só a imagem + link). Imagem real: assets/img/projetos/ -->
+      <article class="proj rv rv-d3" data-cat="automacao" data-demo-url="https://example.com" data-demo-nome="Atendimento e triagem automatizados" data-demo-embed="true">
         <div class="proj__vis">
           <div class="mock">
             <div class="mock__bar"><i></i><i></i><i></i></div>
             <div class="rows"><i></i><i></i><i></i><i></i><i></i></div>
           </div>
+          <span class="proj__live">ao vivo</span>
+          <button type="button" class="proj__abrir proj__cover" aria-label="Ver Atendimento e triagem automatizados rodando"><span>Ver rodando</span></button>
         </div>
         <div class="proj__body">
           <span class="proj__tag">Automação · IA</span>
           <h3>Atendimento e triagem automatizados</h3>
           <p>Mensagens recebidas no WhatsApp são classificadas, registradas no CRM e encaminhadas para a pessoa certa, sem digitação manual.</p>
           <div class="proj__stack"><span>Integrações</span><span>IA</span><span>Webhooks</span></div>
+          <div class="proj__acoes">
+            <button type="button" class="btn btn--sm proj__abrir">Ver rodando</button>
+            <a class="btn btn--sm btn--ghost" href="https://example.com" target="_blank" rel="noopener">Nova aba ↗</a>
+          </div>
         </div>
       </article>
+    </div>
+
+    <div class="projetos__mais rv">
+      <a class="btn btn--ghost" href="projetos.html">Ver todos os projetos</a>
     </div>
   </div>
 </section>
@@ -427,6 +457,7 @@
           <li><a href="index.html">Início</a></li>
           <li><a href="quem-somos.html">Quem somos</a></li>
           <li><a href="produtos.html">Produtos</a></li>
+          <li><a href="projetos.html">Projetos</a></li>
           <li><a href="planos.html">Planos</a></li>
           <li><a href="contato.html">Contato</a></li>
         </ul>

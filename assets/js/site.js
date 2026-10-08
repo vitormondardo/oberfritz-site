@@ -386,6 +386,179 @@ function iniciarBrilho() {
 }
 
 /* ---------------------------------------------------------------- */
+/* Projetos: filtro por categoria                                    */
+/* ---------------------------------------------------------------- */
+function iniciarFiltroProjetos() {
+  const botoes = document.querySelectorAll("[data-filtro]");
+  if (!botoes.length) return;
+  botoes.forEach((b) =>
+    b.addEventListener("click", () => {
+      const cat = b.dataset.filtro;
+      botoes.forEach((o) => {
+        const ativo = o === b;
+        o.setAttribute("aria-pressed", ativo);
+        o.classList.toggle("chip--solid", ativo);
+      });
+      document.querySelectorAll(".proj[data-cat]").forEach((card) => {
+        card.hidden = cat !== "todos" && card.dataset.cat !== cat;
+      });
+    })
+  );
+}
+
+/* ---------------------------------------------------------------- */
+/* Visor: abre o sistema real numa moldura de navegador              */
+/* O iframe só recebe src ao abrir — nada carrega antes do clique.   */
+/* ---------------------------------------------------------------- */
+const VISOR_LARGURAS = { desktop: 1280, tablet: 820, celular: 390 };
+
+function iniciarVisor() {
+  const gatilhos = document.querySelectorAll(".proj__abrir");
+  if (!gatilhos.length) return;
+
+  let dlg, palco, escala, frame, carregando, urlEl, nomeEl, abrirNova, fallbackLink, fallbackNome, fallback;
+  let modo = "desktop";
+  let origem = null;
+  let urlAtual = "";
+  const telaPequena = () => window.matchMedia("(max-width:720px)").matches;
+
+  function montar() {
+    dlg = document.createElement("dialog");
+    dlg.className = "visor";
+    dlg.setAttribute("aria-label", "Visualização do sistema");
+    dlg.innerHTML = `
+      <div class="visor__bar">
+        <div class="visor__dots"><i></i><i></i><i></i></div>
+        <div class="visor__url"><span class="visor__nome"></span><span class="visor__end"></span></div>
+        <div class="visor__tools">
+          <span class="visor__modos" style="display:contents">
+            <button type="button" data-modo="desktop" aria-pressed="true" title="Computador">PC</button>
+            <button type="button" data-modo="tablet" aria-pressed="false" title="Tablet">Tab</button>
+            <button type="button" data-modo="celular" aria-pressed="false" title="Celular">Cel</button>
+            <span class="visor__sep"></span>
+          </span>
+          <button type="button" data-acao="recarregar" title="Recarregar" aria-label="Recarregar">↻</button>
+          <a data-acao="nova" target="_blank" rel="noopener" title="Abrir em nova aba">Nova aba ↗</a>
+          <button type="button" data-acao="fechar" title="Fechar (Esc)" aria-label="Fechar">✕</button>
+        </div>
+      </div>
+      <div class="visor__palco">
+        <div class="visor__escala">
+          <iframe class="visor__frame" title="Sistema em execução" referrerpolicy="strict-origin-when-cross-origin"
+                  sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"></iframe>
+        </div>
+        <div class="visor__carregando">conectando</div>
+        <div class="visor__fallback">
+          <h3></h3>
+          <p>Este sistema não permite ser exibido dentro de outra página. Abra direto no endereço dele para navegar.</p>
+          <a class="btn" target="_blank" rel="noopener">Abrir em nova aba ↗</a>
+        </div>
+      </div>`;
+    document.body.appendChild(dlg);
+
+    palco = dlg.querySelector(".visor__palco");
+    escala = dlg.querySelector(".visor__escala");
+    frame = dlg.querySelector(".visor__frame");
+    carregando = dlg.querySelector(".visor__carregando");
+    fallback = dlg.querySelector(".visor__fallback");
+    urlEl = dlg.querySelector(".visor__end");
+    nomeEl = dlg.querySelector(".visor__nome");
+    abrirNova = dlg.querySelector('[data-acao="nova"]');
+    fallbackLink = fallback.querySelector(".btn");
+    fallbackNome = fallback.querySelector("h3");
+
+    dlg.querySelectorAll("[data-modo]").forEach((b) =>
+      b.addEventListener("click", () => definirModo(b.dataset.modo))
+    );
+    dlg.querySelector('[data-acao="fechar"]').addEventListener("click", () => dlg.close());
+    dlg.querySelector('[data-acao="recarregar"]').addEventListener("click", () => {
+      if (dlg.classList.contains("is-fallback")) return;
+      carregando.classList.remove("is-pronto");
+      frame.src = urlAtual;
+    });
+    // clique fora da moldura (no backdrop) fecha
+    dlg.addEventListener("click", (ev) => {
+      if (ev.target === dlg) dlg.close();
+    });
+    dlg.addEventListener("close", limpar);
+    frame.addEventListener("load", () => {
+      if (frame.getAttribute("src")) carregando.classList.add("is-pronto");
+    });
+    window.addEventListener("resize", () => {
+      if (dlg.open) ajustar();
+    });
+  }
+
+  // O iframe é renderizado na largura "real" do dispositivo e reduzido com
+  // scale() para caber — o site aparece no layout certo, não espremido.
+  function ajustar() {
+    const pw = palco.clientWidth;
+    const ph = palco.clientHeight;
+    const cheio = modo === "desktop" || telaPequena();
+    const margem = cheio ? 0 : 36;
+    const w = telaPequena() ? pw : VISOR_LARGURAS[modo];
+    const k = Math.min(1, pw / w);
+    const h = ph - margem;
+    escala.style.width = w * k + "px";
+    escala.style.height = h + "px";
+    frame.style.width = w + "px";
+    frame.style.height = h / k + "px";
+    frame.style.transform = `scale(${k})`;
+    palco.dataset.modo = cheio ? "desktop" : modo;
+  }
+
+  function definirModo(m) {
+    modo = m;
+    dlg.querySelectorAll("[data-modo]").forEach((b) => b.setAttribute("aria-pressed", b.dataset.modo === m));
+    ajustar();
+  }
+
+  function abrir(card, gatilho) {
+    let alvo;
+    try {
+      alvo = new URL(card.dataset.demoUrl);
+      if (!/^https?:$/.test(alvo.protocol)) return;
+    } catch (e) {
+      return;
+    }
+
+    if (!dlg) montar();
+    origem = gatilho;
+    urlAtual = alvo.href;
+    const nome = card.dataset.demoNome || alvo.hostname;
+    const img = card.querySelector(".proj__vis img");
+    const fundo = img ? `url("${img.currentSrc || img.src}")` : "";
+
+    nomeEl.textContent = nome;
+    urlEl.textContent = alvo.hostname + (alvo.pathname === "/" ? "" : alvo.pathname);
+    abrirNova.href = fallbackLink.href = urlAtual;
+    fallbackNome.textContent = nome;
+    carregando.style.backgroundImage = fallback.style.backgroundImage = fundo;
+
+    const incorporar = card.dataset.demoEmbed !== "false";
+    dlg.classList.toggle("is-fallback", !incorporar);
+    carregando.classList.remove("is-pronto");
+    document.body.classList.add("visor-aberto");
+    dlg.showModal();
+    definirModo(telaPequena() ? "celular" : "desktop");
+    if (incorporar) frame.src = urlAtual;
+  }
+
+  function limpar() {
+    frame.removeAttribute("src");
+    document.body.classList.remove("visor-aberto");
+    if (origem) origem.focus();
+  }
+
+  gatilhos.forEach((g) =>
+    g.addEventListener("click", () => {
+      const card = g.closest("[data-demo-url]");
+      if (card) abrir(card, g);
+    })
+  );
+}
+
+/* ---------------------------------------------------------------- */
 /* Formulário de contato → abre o WhatsApp com a mensagem pronta     */
 /* ---------------------------------------------------------------- */
 function iniciarFormulario() {
@@ -420,6 +593,8 @@ document.addEventListener("DOMContentLoaded", () => {
   iniciarCarrossel3D();
   iniciarReveal();
   iniciarBrilho();
+  iniciarFiltroProjetos();
+  iniciarVisor();
   iniciarFormulario();
   anoAtual();
 });

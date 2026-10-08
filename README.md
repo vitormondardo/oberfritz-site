@@ -100,6 +100,7 @@ com atualização de pacote e hospeda em qualquer lugar.
 index.html            Home — sequência completa de apresentação
 quem-somos.html       Perfil profissional, competências e trajetória
 produtos.html         Detalhe das 6 frentes de solução
+projetos.html         Repertório: sistemas reais abertos ao vivo no visor
 planos.html           Modelos de contratação + comparativo + FAQ
 contato.html          Formulário que abre o WhatsApp preenchido
 404.html              Página de erro (noindex)
@@ -107,6 +108,7 @@ contato.html          Formulário que abre o WhatsApp preenchido
 assets/css/style.css  Estilo único do site
 assets/js/site.js     Hero com scroll, malha 3D, carrossel 3D, formulário
 assets/img/           Logo, mascote Fritz e foto profissional
+assets/img/projetos/  Capturas de tela dos sistemas exibidos (1280×800, .webp)
 
 _src/                 Fonte das páginas internas + script de build
   build.py            Gera as páginas internas, o sitemap e injeta meta tags
@@ -176,9 +178,51 @@ código com `<!-- TROCAR -->`:
   tratamento, remova a linha `filter:` da regra `.perfil__frame img`.
 - **`index.html`, seção `id="depoimentos"`** — trocar por depoimentos reais de
   clientes.
-- **`index.html`, seção `id="projetos"`** — trocar os quatro cards pelos sistemas
-  já entregues.
+- **Projetos (`index.html` seção `id="projetos"` e `_src/projetos.body.html`)** —
+  trocar os cards de exemplo pelos sistemas reais. Veja "Adicionando um sistema
+  ao repertório" abaixo.
 - **`assets/js/site.js`, bloco `CONFIG`** — confirmar WhatsApp, e-mail e redes.
+
+---
+
+## Adicionando um sistema ao repertório
+
+Cada card de projeto é um `<article class="proj">` com três atributos que alimentam
+o visor (a janela com moldura de navegador que abre o sistema de verdade):
+
+```html
+<article class="proj rv" data-cat="dados"
+         data-demo-url="https://sistema.exemplo.com.br"
+         data-demo-nome="Painel de operação"
+         data-demo-embed="true">
+```
+
+| Atributo | Para que serve |
+|---|---|
+| `data-cat` | Categoria do filtro: `software`, `dados`, `automacao` ou `infra`. |
+| `data-demo-url` | Endereço público do sistema (`http`/`https`). |
+| `data-demo-embed` | `true` abre dentro do visor; `false` mostra a captura de tela + botão "Nova aba". |
+
+O mesmo card vale na home (destaques) e em `projetos.html` — copie o bloco nos dois.
+Para trocar o desenho em CSS por uma captura real, coloque o `.webp` em
+`assets/img/projetos/` e substitua o `<div class="mock">` por `<img src="..." alt="" loading="lazy">`.
+
+**Antes de marcar `data-demo-embed="true"`, teste se o sistema aceita ser incorporado:**
+
+```bash
+curl -sI https://sistema.exemplo.com.br | grep -iE "x-frame-options|frame-ancestors"
+```
+
+Se não voltar nada, funciona. Se voltar `DENY`/`SAMEORIGIN` (ou um `frame-ancestors`
+que não inclua o site), use `data-demo-embed="false"`. Nos sistemas que a OberFritz
+mesma hospeda, libere o site com:
+
+```
+Content-Security-Policy: frame-ancestors 'self' https://oberfritz.com.br
+```
+
+O iframe só recebe o endereço quando o visitante clica — nada do sistema carrega
+junto com a página. Depois de editar, rode `python3 _src/build.py`.
 
 ---
 

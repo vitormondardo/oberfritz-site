@@ -1,0 +1,131 @@
+<!--HEAD:Projetos — OberFritz|Sistemas reais da OberFritz em produção: abra, navegue e use cada um direto no site.-->
+<!--NAV-->
+
+<section class="page-hero">
+  <div class="grid-bg"></div>
+  <div class="wrap">
+    <p class="eyebrow rv">repertório</p>
+    <h1 class="rv rv-d1">Sistemas reais, rodando agora</h1>
+    <p class="lead rv rv-d2">Cada projeto abaixo está no ar. Clique em “Ver rodando” para navegar no sistema de verdade — no computador, no tablet ou no celular — sem sair desta página.</p>
+  </div>
+</section>
+
+<section class="section section--tight projetos">
+  <div class="wrap">
+    <div class="chips projetos__filtro rv" role="group" aria-label="Filtrar por categoria">
+      <button type="button" class="chip chip--solid" data-filtro="todos" aria-pressed="true">Todos</button>
+      <button type="button" class="chip" data-filtro="software" aria-pressed="false">Software</button>
+      <button type="button" class="chip" data-filtro="dados" aria-pressed="false">Dados · BI</button>
+      <button type="button" class="chip" data-filtro="automacao" aria-pressed="false">Automação</button>
+      <button type="button" class="chip" data-filtro="infra" aria-pressed="false">Infra</button>
+    </div>
+
+    <div class="projetos__grid">
+      <!-- TROCAR: data-demo-url (endereço público do sistema), data-demo-nome e data-demo-embed
+           ("false" se o sistema bloquear iframe: mostra só a imagem + link). Imagem real: assets/img/projetos/ -->
+      <article class="proj rv" data-cat="dados" data-demo-url="https://example.com" data-demo-nome="Painel de operação em tempo real" data-demo-embed="true">
+        <div class="proj__vis">
+          <div class="mock">
+            <div class="mock__bar"><i></i><i></i><i></i></div>
+            <div class="bars"><i style="height:46%"></i><i style="height:70%"></i><i style="height:38%"></i><i style="height:88%"></i><i style="height:60%"></i><i style="height:76%"></i></div>
+          </div>
+          <span class="proj__live">ao vivo</span>
+          <button type="button" class="proj__abrir proj__cover" aria-label="Ver Painel de operação em tempo real rodando"><span>Ver rodando</span></button>
+        </div>
+        <div class="proj__body">
+          <span class="proj__tag">Dados · BI</span>
+          <h3>Painel de operação em tempo real</h3>
+          <p>Indicadores de produção, vendas e estoque em uma tela só, alimentados direto do ERP. Fim do relatório montado à mão toda segunda-feira.</p>
+          <div class="proj__stack"><span>Python</span><span>PostgreSQL</span><span>API ERP</span></div>
+          <div class="proj__acoes">
+            <button type="button" class="btn btn--sm proj__abrir">Ver rodando</button>
+            <a class="btn btn--sm btn--ghost" href="https://example.com" target="_blank" rel="noopener">Nova aba ↗</a>
+          </div>
+        </div>
+      </article>
+      <!-- TROCAR: data-demo-url (endereço público do sistema), data-demo-nome e data-demo-embed
+           ("false" se o sistema bloquear iframe: mostra só a imagem + link). Imagem real: assets/img/projetos/ -->
+      <article class="proj rv rv-d1" data-cat="infra" data-demo-url="https://example.com" data-demo-nome="Ambiente containerizado com deploy automático" data-demo-embed="true">
+        <div class="proj__vis">
+          <div class="mock">
+            <div class="mock__bar"><i></i><i></i><i></i></div>
+            <div class="term">
+              <b>$</b> deploy --env=prod<br>
+              <em>build</em> ✓ <em>testes</em> ✓ <em>migração</em> ✓<br>
+              <b>✓</b> no ar em 41s
+            </div>
+          </div>
+          <span class="proj__live">ao vivo</span>
+          <button type="button" class="proj__abrir proj__cover" aria-label="Ver Ambiente containerizado com deploy automático rodando"><span>Ver rodando</span></button>
+        </div>
+        <div class="proj__body">
+          <span class="proj__tag">Infra · DevOps</span>
+          <h3>Ambiente containerizado com deploy automático</h3>
+          <p>Aplicação, banco e serviços isolados em containers, com publicação automatizada e rollback em um comando.</p>
+          <div class="proj__stack"><span>Docker</span><span>CI/CD</span><span>Linux</span></div>
+          <div class="proj__acoes">
+            <button type="button" class="btn btn--sm proj__abrir">Ver rodando</button>
+            <a class="btn btn--sm btn--ghost" href="https://example.com" target="_blank" rel="noopener">Nova aba ↗</a>
+          </div>
+        </div>
+      </article>
+      <article class="proj rv rv-d2" data-cat="software" data-demo-url="https://landing-3d-scroll.vercel.app" data-demo-nome="Coco Ice" data-demo-embed="true">
+        <div class="proj__vis">
+          <img src="assets/img/projetos/coco-ice.webp" alt="Página inicial do site da Coco Ice, gelo de coco saborizado para drinks" width="960" height="600" loading="lazy">
+          <span class="proj__live">ao vivo</span>
+          <button type="button" class="proj__abrir proj__cover" aria-label="Ver Coco Ice rodando"><span>Ver rodando</span></button>
+        </div>
+        <div class="proj__body">
+          <span class="proj__tag">Software sob medida · Web</span>
+          <h3>Coco Ice — site de venda de gelo de coco para drinks</h3>
+          <p>Landing page com produto em 3D que acompanha a rolagem, apresentação dos sabores e pedido direto pelo WhatsApp.</p>
+          <div class="proj__stack"><span>Landing page</span><span>Animação 3D</span><span>WhatsApp</span></div>
+          <div class="proj__acoes">
+            <button type="button" class="btn btn--sm proj__abrir">Ver rodando</button>
+            <a class="btn btn--sm btn--ghost" href="https://landing-3d-scroll.vercel.app" target="_blank" rel="noopener">Nova aba ↗</a>
+          </div>
+        </div>
+      </article>
+      <!-- TROCAR: data-demo-url (endereço público do sistema), data-demo-nome e data-demo-embed
+           ("false" se o sistema bloquear iframe: mostra só a imagem + link). Imagem real: assets/img/projetos/ -->
+      <article class="proj rv rv-d3" data-cat="automacao" data-demo-url="https://example.com" data-demo-nome="Atendimento e triagem automatizados" data-demo-embed="true">
+        <div class="proj__vis">
+          <div class="mock">
+            <div class="mock__bar"><i></i><i></i><i></i></div>
+            <div class="rows"><i></i><i></i><i></i><i></i><i></i></div>
+          </div>
+          <span class="proj__live">ao vivo</span>
+          <button type="button" class="proj__abrir proj__cover" aria-label="Ver Atendimento e triagem automatizados rodando"><span>Ver rodando</span></button>
+        </div>
+        <div class="proj__body">
+          <span class="proj__tag">Automação · IA</span>
+          <h3>Atendimento e triagem automatizados</h3>
+          <p>Mensagens recebidas no WhatsApp são classificadas, registradas no CRM e encaminhadas para a pessoa certa, sem digitação manual.</p>
+          <div class="proj__stack"><span>Integrações</span><span>IA</span><span>Webhooks</span></div>
+          <div class="proj__acoes">
+            <button type="button" class="btn btn--sm proj__abrir">Ver rodando</button>
+            <a class="btn btn--sm btn--ghost" href="https://example.com" target="_blank" rel="noopener">Nova aba ↗</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section section--tight faixa">
+  <div class="wrap faixa__inner">
+    <div class="rv">
+      <h2>Quer um sistema assim para a sua operação?</h2>
+      <p>Conte onde o processo trava hoje. Na primeira conversa a gente já aponta o que dá para automatizar primeiro.</p>
+    </div>
+    <div class="rv rv-d2">
+      <a class="btn" data-wpp="Olá! Vi os projetos no site e quero conversar sobre a minha operação.">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.5 8.5 0 0 1-3.9-.9L3 21l1.9-5a8.4 8.4 0 0 1-.9-3.9 8.5 8.5 0 0 1 8.4-9 8.5 8.5 0 0 1 8.6 8.4z"/></svg>
+        Falar no WhatsApp
+      </a>
+    </div>
+    <img class="faixa__fritz" src="assets/img/fritz-notebook.png" alt="" loading="lazy">
+  </div>
+</section>
+
+<!--FOOTER-->
