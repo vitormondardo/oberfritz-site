@@ -197,7 +197,13 @@ function iniciarMalha3D(canvas) {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
   medir();
-  window.addEventListener("resize", medir);
+  // o console cresce com o scroll: o buffer do canvas acompanha o tamanho real,
+  // senão o render é esticado pelo CSS e fica borrado/distorcido
+  if ("ResizeObserver" in window) {
+    new ResizeObserver(medir).observe(canvas);
+  } else {
+    window.addEventListener("resize", medir);
+  }
 
   let rodando = true;
   const io = new IntersectionObserver(
@@ -214,6 +220,7 @@ function iniciarMalha3D(canvas) {
 
   let tempo = 0;
   const proj = [];
+  const ordem = Array.from({ length: N }, (_, i) => i);
 
   function quadro() {
     requestAnimationFrame(quadro);
@@ -222,7 +229,8 @@ function iniciarMalha3D(canvas) {
 
     const escala = Math.min(W, H) * 0.48;
     const cx = W / 2;
-    const cy = H / 2;
+    // com o console em tela cheia, sobe a esfera para não ficar atrás do texto
+    const cy = H * (0.5 - 0.1 * Math.min(Math.max((H - 450) / 300, 0), 1));
     const yaw = tempo + mouseX;
     const pitch = Math.sin(tempo * 0.6) * 0.22 + mouseY;
     const cy1 = Math.cos(yaw), sy1 = Math.sin(yaw);
@@ -241,37 +249,61 @@ function iniciarMalha3D(canvas) {
 
     ctx.clearRect(0, 0, W, H);
 
+    // elementos escalam com o tamanho do console, então o círculo mantém
+    // presença quando ele ocupa a tela toda
+    const u = Math.max(escala / 230, 0.8);
+    const raioEsfera = escala * 0.62;
+
+    // halo atrás da esfera
+    const halo = ctx.createRadialGradient(cx, cy, raioEsfera * 0.15, cx, cy, raioEsfera * 1.35);
+    halo.addColorStop(0, "rgba(22,163,106,.20)");
+    halo.addColorStop(0.55, "rgba(22,163,106,.07)");
+    halo.addColorStop(1, "rgba(22,163,106,0)");
+    ctx.fillStyle = halo;
+    ctx.fillRect(0, 0, W, H);
+
+    // contorno da esfera
+    ctx.beginPath();
+    ctx.arc(cx, cy, raioEsfera, 0, Math.PI * 2);
+    ctx.strokeStyle = "rgba(132,235,181,.12)";
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
     // arestas
     for (const a of arestas) {
       const p1 = proj[a.a], p2 = proj[a.b];
       const prof = (p1.z + p2.z) / 2;
-      const alpha = 0.08 + Math.max(prof + 1, 0) * 0.16;
-      ctx.strokeStyle = `rgba(132,235,181,${alpha.toFixed(3)})`;
-      ctx.lineWidth = prof > 0 ? 1.1 : 0.6;
+      const alpha = 0.16 + Math.max(prof + 1, 0) * 0.26;
+      ctx.strokeStyle = `rgba(132,235,181,${Math.min(alpha, 0.7).toFixed(3)})`;
+      ctx.lineWidth = (prof > 0 ? 1.2 : 0.7) * Math.min(u, 1.8);
       ctx.beginPath();
       ctx.moveTo(p1.x, p1.y);
       ctx.lineTo(p2.x, p2.y);
       ctx.stroke();
     }
 
-    // nós
-    for (let i = 0; i < N; i++) {
+    // nós — do fundo para a frente
+    ordem.sort((a, b) => proj[a].z - proj[b].z);
+    for (const i of ordem) {
       const p = proj[i];
       const frente = p.z > 0;
-      const r = (frente ? 2.6 : 1.5) * (0.7 + nos[i].f * 0.5);
+      const r = (frente ? 2.8 : 1.7) * (0.7 + nos[i].f * 0.5) * u;
       const pulso = 0.5 + 0.5 * Math.sin(tempo * 2.4 + i);
+      if (frente) {
+        const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, r * 4.5);
+        g.addColorStop(0, `rgba(194,239,91,${(0.28 + pulso * 0.3).toFixed(3)})`);
+        g.addColorStop(1, "rgba(194,239,91,0)");
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, r * 4.5, 0, Math.PI * 2);
+        ctx.fill();
+      }
       ctx.beginPath();
       ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
       ctx.fillStyle = frente
-        ? `rgba(194,239,91,${(0.35 + pulso * 0.5).toFixed(3)})`
-        : `rgba(22,163,106,${(0.2 + pulso * 0.2).toFixed(3)})`;
+        ? `rgba(194,239,91,${(0.7 + pulso * 0.3).toFixed(3)})`
+        : `rgba(40,190,125,${(0.35 + pulso * 0.2).toFixed(3)})`;
       ctx.fill();
-      if (frente && pulso > 0.85) {
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, r * 4, 0, Math.PI * 2);
-        ctx.fillStyle = "rgba(194,239,91,0.05)";
-        ctx.fill();
-      }
     }
 
     // pacotes viajando
@@ -286,9 +318,12 @@ function iniciarMalha3D(canvas) {
       const x = p1.x + (p2.x - p1.x) * pk.t;
       const y = p1.y + (p2.y - p1.y) * pk.t;
       ctx.beginPath();
-      ctx.arc(x, y, 2.2, 0, Math.PI * 2);
-      ctx.fillStyle = "rgba(242,255,247,.9)";
+      ctx.arc(x, y, 2.4 * Math.min(u, 1.8), 0, Math.PI * 2);
+      ctx.fillStyle = "rgba(242,255,247,.95)";
+      ctx.shadowColor = "rgba(194,239,91,.9)";
+      ctx.shadowBlur = 10;
       ctx.fill();
+      ctx.shadowBlur = 0;
     }
   }
   quadro();

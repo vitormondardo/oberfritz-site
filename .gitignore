@@ -21,3 +21,8 @@ venv/
 node_modules/
 .env
 .env.*
+
+.vercel
+
+# Logo avulsa (rascunho)
+assets/img/logo-perfil-circular (2).png
