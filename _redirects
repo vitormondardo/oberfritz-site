@@ -1,8 +1,0 @@
-# Cloudflare Workers Assets — redirecionamentos
-# Docs: https://developers.cloudflare.com/workers/static-assets/redirects/
-#
-# Não recrie regras /pagina -> /pagina.html aqui: o Workers Assets já serve
-# /quem-somos a partir de quem-somos.html e redireciona o .html para a URL
-# limpa. Declarar o caminho inverso cria um loop (ERR_TOO_MANY_REDIRECTS).
-#
-# Fragmentos de template não são publicados — ver .assetsignore.

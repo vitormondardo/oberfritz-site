@@ -7,7 +7,7 @@
 **Tecnologia que trabalha a favor da sua operação.**
 
 [![Site](https://img.shields.io/badge/site-oberfritz.com.br-C2EF5B?style=flat-square)](https://oberfritz.com.br)
-[![Deploy](https://img.shields.io/badge/deploy-Cloudflare%20Pages-16A36A?style=flat-square)](https://pages.cloudflare.com/)
+[![Deploy](https://img.shields.io/badge/deploy-Vercel-16A36A?style=flat-square)](https://vercel.com/)
 [![Stack](https://img.shields.io/badge/stack-HTML%20·%20CSS%20·%20JS-062D22?style=flat-square)](#stack-e-arquitetura)
 
 </div>
@@ -114,8 +114,8 @@ _src/                 Fonte das páginas internas + script de build
   build.py            Gera as páginas internas, o sitemap e injeta meta tags
   *.body.html         Corpo de cada página interna
 
-_headers              Cabeçalhos de segurança e cache (Cloudflare Pages)
-_redirects            URLs limpas e bloqueio de /_src/
+vercel.json           Cabeçalhos, cache, URLs limpas e redirect www (Vercel)
+.vercelignore         Arquivos que não vão no deploy pela CLI
 robots.txt            Indexação
 sitemap.xml           Gerado pelo build
 ```
@@ -228,11 +228,10 @@ junto com a página. Depois de editar, rode `python3 _src/build.py`.
 
 ## Deploy
 
-Hospedado no **Cloudflare Pages**, com deploy automático a cada push na branch
-`main`. Não há comando de build no Cloudflare — as páginas já vão prontas no
-repositório e o diretório de saída é a raiz (`/`).
+Hospedado na **Vercel**. Não há comando de build — as páginas já vão prontas no
+repositório e o diretório de saída é a raiz.
 
-O passo a passo completo de deploy e configuração de DNS está em
+O passo a passo de deploy e domínio está em
 **[DEPLOY.md](DEPLOY.md)**.
 
 ---

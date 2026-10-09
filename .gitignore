@@ -17,7 +17,6 @@ __pycache__/
 venv/
 
 # Ferramentas de deploy
-.wrangler/
 node_modules/
 .env
 .env.*
