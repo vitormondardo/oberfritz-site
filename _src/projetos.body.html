@@ -12,63 +12,8 @@
 
 <section class="section section--tight projetos">
   <div class="wrap">
-    <div class="chips projetos__filtro rv" role="group" aria-label="Filtrar por categoria">
-      <button type="button" class="chip chip--solid" data-filtro="todos" aria-pressed="true">Todos</button>
-      <button type="button" class="chip" data-filtro="software" aria-pressed="false">Software</button>
-      <button type="button" class="chip" data-filtro="dados" aria-pressed="false">Dados · BI</button>
-      <button type="button" class="chip" data-filtro="infra" aria-pressed="false">Infra</button>
-    </div>
-
     <div class="projetos__grid">
-      <!-- TROCAR: data-demo-url (endereço público do sistema), data-demo-nome e data-demo-embed
-           ("false" se o sistema bloquear iframe: mostra só a imagem + link). Imagem real: assets/img/projetos/ -->
-      <article class="proj rv" data-cat="dados" data-demo-url="https://example.com" data-demo-nome="Painel de operação em tempo real" data-demo-embed="true">
-        <div class="proj__vis">
-          <div class="mock">
-            <div class="mock__bar"><i></i><i></i><i></i></div>
-            <div class="bars"><i style="height:46%"></i><i style="height:70%"></i><i style="height:38%"></i><i style="height:88%"></i><i style="height:60%"></i><i style="height:76%"></i></div>
-          </div>
-          <span class="proj__live">ao vivo</span>
-          <button type="button" class="proj__abrir proj__cover" aria-label="Ver Painel de operação em tempo real rodando"><span>Ver rodando</span></button>
-        </div>
-        <div class="proj__body">
-          <span class="proj__tag">Dados · BI</span>
-          <h3>Painel de operação em tempo real</h3>
-          <p>Indicadores de produção, vendas e estoque em uma tela só, alimentados direto do ERP. Fim do relatório montado à mão toda segunda-feira.</p>
-          <div class="proj__stack"><span>Python</span><span>PostgreSQL</span><span>API ERP</span></div>
-          <div class="proj__acoes">
-            <button type="button" class="btn btn--sm proj__abrir">Ver rodando</button>
-            <a class="btn btn--sm btn--ghost" href="https://example.com" target="_blank" rel="noopener">Nova aba ↗</a>
-          </div>
-        </div>
-      </article>
-      <!-- TROCAR: data-demo-url (endereço público do sistema), data-demo-nome e data-demo-embed
-           ("false" se o sistema bloquear iframe: mostra só a imagem + link). Imagem real: assets/img/projetos/ -->
-      <article class="proj rv rv-d1" data-cat="infra" data-demo-url="https://example.com" data-demo-nome="Ambiente containerizado com deploy automático" data-demo-embed="true">
-        <div class="proj__vis">
-          <div class="mock">
-            <div class="mock__bar"><i></i><i></i><i></i></div>
-            <div class="term">
-              <b>$</b> deploy --env=prod<br>
-              <em>build</em> ✓ <em>testes</em> ✓ <em>migração</em> ✓<br>
-              <b>✓</b> no ar em 41s
-            </div>
-          </div>
-          <span class="proj__live">ao vivo</span>
-          <button type="button" class="proj__abrir proj__cover" aria-label="Ver Ambiente containerizado com deploy automático rodando"><span>Ver rodando</span></button>
-        </div>
-        <div class="proj__body">
-          <span class="proj__tag">Infra · DevOps</span>
-          <h3>Ambiente containerizado com deploy automático</h3>
-          <p>Aplicação, banco e serviços isolados em containers, com publicação automatizada e rollback em um comando.</p>
-          <div class="proj__stack"><span>Docker</span><span>CI/CD</span><span>Linux</span></div>
-          <div class="proj__acoes">
-            <button type="button" class="btn btn--sm proj__abrir">Ver rodando</button>
-            <a class="btn btn--sm btn--ghost" href="https://example.com" target="_blank" rel="noopener">Nova aba ↗</a>
-          </div>
-        </div>
-      </article>
-      <article class="proj rv rv-d2" data-cat="software" data-demo-url="https://landing-3d-scroll.vercel.app" data-demo-nome="Coco Ice" data-demo-embed="true">
+      <article class="proj rv" data-cat="software" data-demo-url="https://landing-3d-scroll.vercel.app" data-demo-nome="Coco Ice" data-demo-embed="true">
         <div class="proj__vis">
           <img src="assets/img/projetos/coco-ice.webp" alt="Página inicial do site da Coco Ice, gelo de coco saborizado para drinks" width="960" height="600" loading="lazy">
           <span class="proj__live">ao vivo</span>
@@ -85,7 +30,7 @@
           </div>
         </div>
       </article>
-      <article class="proj rv rv-d3" data-cat="software" data-demo-url="https://agencias-air.vercel.app" data-demo-nome="Agências Air" data-demo-embed="true">
+      <article class="proj rv rv-d1" data-cat="software" data-demo-url="https://agencias-air.vercel.app" data-demo-nome="Agências Air" data-demo-embed="true">
         <div class="proj__vis">
           <img src="assets/img/projetos/agencias-air.webp" alt="Página inicial do site da Agências Air, agência que emite passagens aéreas com milhas" width="960" height="600" loading="lazy">
           <span class="proj__live">ao vivo</span>
@@ -102,9 +47,7 @@
           </div>
         </div>
       </article>
-      <!-- TROCAR: data-demo-url (endereço público do sistema), data-demo-nome e data-demo-embed
-           ("false" se o sistema bloquear iframe: mostra só a imagem + link). Imagem real: assets/img/projetos/ -->
-      <article class="proj rv rv-d3" data-cat="software" data-demo-url="https://la-casa-de-racion.vercel.app" data-demo-nome="La Casa de Racion" data-demo-embed="true">
+      <article class="proj rv rv-d2" data-cat="software" data-demo-url="https://la-casa-de-racion.vercel.app" data-demo-nome="La Casa de Racion" data-demo-embed="true">
         <div class="proj__vis">
           <img src="assets/img/projetos/la-casa-de-racao.webp" alt="Página inicial do site da La Casa de Racion, agropecuária e pet shop" width="960" height="600" loading="lazy">
           <span class="proj__live">ao vivo</span>
