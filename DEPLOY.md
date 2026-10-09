@@ -4,6 +4,8 @@ O site é estático e roda na **Vercel** (projeto `oberfritz-site`). As páginas
 vão prontas no repositório: **não há build na Vercel**. O `_src/build.py` roda na
 sua máquina, antes do commit.
 
+**Endereço na Vercel:** <https://oberfritz-site.vercel.app>
+
 ## Configuração do projeto na Vercel
 
 | Campo | Valor |
@@ -35,12 +37,13 @@ no painel da Vercel.
 
 ## Domínio
 
-No painel: **Project → Settings → Domains**. Cadastre `oberfritz.com.br` e
+O site já responde em `oberfritz-site.vercel.app`. Para usar o domínio próprio, no painel: **Project → Settings → Domains**. Cadastre `oberfritz.com.br` e
 `www.oberfritz.com.br` e aponte o DNS conforme as instruções exibidas pela
 Vercel. O `www` redireciona (301) para a raiz via `vercel.json`.
 
 ## Conferência
 
+- [ ] `https://oberfritz-site.vercel.app` abre o site atualizado
 - [ ] `https://oberfritz.com.br` abre com HTTPS válido
 - [ ] `https://www.oberfritz.com.br/planos` redireciona para `https://oberfritz.com.br/planos`
 - [ ] `/`, `/quem-somos`, `/produtos`, `/planos`, `/contato` abrem
