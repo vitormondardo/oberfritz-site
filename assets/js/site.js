@@ -14,7 +14,7 @@ const CONFIG = {
 };
 
 const wppLink = (msg) =>
-  `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(msg || CONFIG.mensagemPadrao)}`;
+  `https://api.whatsapp.com/send?phone=${CONFIG.whatsapp}&text=${encodeURIComponent(msg || CONFIG.mensagemPadrao)}`;
 
 const reduzMovimento = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
