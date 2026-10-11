@@ -6,7 +6,9 @@
     { "source": "/_src/:path*", "destination": "/__bloqueado" }
   ],
   "redirects": [
-    { "source": "/:path(.*)", "has": [{ "type": "host", "value": "www.oberfritz.com.br" }], "destination": "https://oberfritz.com.br/:path", "permanent": true }
+    { "source": "/:path(.*)", "has": [{ "type": "host", "value": "www.oberfritz.com.br" }], "destination": "https://oberfritz.com.br/:path", "permanent": true },
+    { "source": "/", "has": [{ "type": "cookie", "key": "lang", "value": "en" }], "destination": "/en", "permanent": false },
+    { "source": "/", "has": [{ "type": "header", "key": "accept-language", "value": "^(?!.*\\bpt\\b).+" }], "missing": [{ "type": "cookie", "key": "lang" }], "destination": "/en", "permanent": false }
   ],
   "headers": [
     {

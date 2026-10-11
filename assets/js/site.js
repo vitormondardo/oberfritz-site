@@ -9,12 +9,74 @@ const CONFIG = {
   instagram: "https://instagram.com/oberfritzz",
   linkedin: "https://www.linkedin.com/in/vitor-mondardo",
   linkedinEmpresa: "https://www.linkedin.com/in/ober-fritz/",
-  github: "https://github.com/vitormondardo",
-  mensagemPadrao: "Olá! Vim pelo site da OberFritz e quero entender como automatizar a operação da minha empresa."
+  github: "https://github.com/vitormondardo"
 };
 
+/* ---------------------------------------------------------------- */
+/* Idioma — vem do <html lang>; o texto de cada idioma fica aqui     */
+/* ---------------------------------------------------------------- */
+const LANG = document.documentElement.lang.toLowerCase().startsWith("en") ? "en" : "pt";
+
+const TEXTOS = {
+  pt: {
+    mensagemPadrao: "Olá! Vim pelo site da OberFritz e quero entender como automatizar a operação da minha empresa.",
+    formSaudacao: "Olá, OberFritz! Meu nome é",
+    formEmpresa: "Empresa",
+    formEmail: "E-mail",
+    formAssunto: "Preciso de",
+    formContexto: "Contexto",
+    visorAria: "Visualização do sistema",
+    visorPc: "Computador",
+    visorTab: "Tablet",
+    visorCel: "Celular",
+    visorRecarregar: "Recarregar",
+    visorNova: "Nova aba ↗",
+    visorNovaTitulo: "Abrir em nova aba",
+    visorFechar: "Fechar",
+    visorFecharTitulo: "Fechar (Esc)",
+    visorFrame: "Sistema em execução",
+    visorConectando: "conectando",
+    visorBloqueado: "Este sistema não permite ser exibido dentro de outra página. Abra direto no endereço dele para navegar.",
+    visorAbrirNova: "Abrir em nova aba ↗"
+  },
+  en: {
+    mensagemPadrao: "Hi! I found you through the OberFritz website and I'd like to understand how to automate my company's operations.",
+    formSaudacao: "Hi, OberFritz! My name is",
+    formEmpresa: "Company",
+    formEmail: "Email",
+    formAssunto: "I need",
+    formContexto: "Context",
+    visorAria: "System preview",
+    visorPc: "Desktop",
+    visorTab: "Tablet",
+    visorCel: "Phone",
+    visorRecarregar: "Reload",
+    visorNova: "New tab ↗",
+    visorNovaTitulo: "Open in a new tab",
+    visorFechar: "Close",
+    visorFecharTitulo: "Close (Esc)",
+    visorFrame: "Live system",
+    visorConectando: "connecting",
+    visorBloqueado: "This system can't be displayed inside another page. Open it at its own address to browse it.",
+    visorAbrirNova: "Open in a new tab ↗"
+  }
+};
+const T = TEXTOS[LANG];
+
 const wppLink = (msg) =>
-  `https://api.whatsapp.com/send?phone=${CONFIG.whatsapp}&text=${encodeURIComponent(msg || CONFIG.mensagemPadrao)}`;
+  `https://api.whatsapp.com/send?phone=${CONFIG.whatsapp}&text=${encodeURIComponent(msg || T.mensagemPadrao)}`;
+
+/* ---------------------------------------------------------------- */
+/* Seletor de idioma: lembra a escolha manual (cookie lido pela      */
+/* Vercel em vercel.json para decidir o redirecionamento da home)    */
+/* ---------------------------------------------------------------- */
+function iniciarIdioma() {
+  document.querySelectorAll("[data-lang]").forEach((a) =>
+    a.addEventListener("click", () => {
+      document.cookie = `lang=${a.dataset.lang}; max-age=31536000; path=/; samesite=lax`;
+    })
+  );
+}
 
 const reduzMovimento = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -460,33 +522,33 @@ function iniciarVisor() {
   function montar() {
     dlg = document.createElement("dialog");
     dlg.className = "visor";
-    dlg.setAttribute("aria-label", "Visualização do sistema");
+    dlg.setAttribute("aria-label", T.visorAria);
     dlg.innerHTML = `
       <div class="visor__bar">
         <div class="visor__dots"><i></i><i></i><i></i></div>
         <div class="visor__url"><span class="visor__nome"></span><span class="visor__end"></span></div>
         <div class="visor__tools">
           <span class="visor__modos" style="display:contents">
-            <button type="button" data-modo="desktop" aria-pressed="true" title="Computador">PC</button>
-            <button type="button" data-modo="tablet" aria-pressed="false" title="Tablet">Tab</button>
-            <button type="button" data-modo="celular" aria-pressed="false" title="Celular">Cel</button>
+            <button type="button" data-modo="desktop" aria-pressed="true" title="${T.visorPc}">PC</button>
+            <button type="button" data-modo="tablet" aria-pressed="false" title="${T.visorTab}">Tab</button>
+            <button type="button" data-modo="celular" aria-pressed="false" title="${T.visorCel}">${LANG === "en" ? "Phone" : "Cel"}</button>
             <span class="visor__sep"></span>
           </span>
-          <button type="button" data-acao="recarregar" title="Recarregar" aria-label="Recarregar">↻</button>
-          <a data-acao="nova" target="_blank" rel="noopener" title="Abrir em nova aba">Nova aba ↗</a>
-          <button type="button" data-acao="fechar" title="Fechar (Esc)" aria-label="Fechar">✕</button>
+          <button type="button" data-acao="recarregar" title="${T.visorRecarregar}" aria-label="${T.visorRecarregar}">↻</button>
+          <a data-acao="nova" target="_blank" rel="noopener" title="${T.visorNovaTitulo}">${T.visorNova}</a>
+          <button type="button" data-acao="fechar" title="${T.visorFecharTitulo}" aria-label="${T.visorFechar}">✕</button>
         </div>
       </div>
       <div class="visor__palco">
         <div class="visor__escala">
-          <iframe class="visor__frame" title="Sistema em execução" referrerpolicy="strict-origin-when-cross-origin"
+          <iframe class="visor__frame" title="${T.visorFrame}" referrerpolicy="strict-origin-when-cross-origin"
                   sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"></iframe>
         </div>
-        <div class="visor__carregando">conectando</div>
+        <div class="visor__carregando">${T.visorConectando}</div>
         <div class="visor__fallback">
           <h3></h3>
-          <p>Este sistema não permite ser exibido dentro de outra página. Abra direto no endereço dele para navegar.</p>
-          <a class="btn" target="_blank" rel="noopener">Abrir em nova aba ↗</a>
+          <p>${T.visorBloqueado}</p>
+          <a class="btn" target="_blank" rel="noopener">${T.visorAbrirNova}</a>
         </div>
       </div>`;
     document.body.appendChild(dlg);
@@ -603,11 +665,11 @@ function iniciarFormulario() {
     ev.preventDefault();
     const d = new FormData(form);
     const texto =
-      `Olá, OberFritz! Meu nome é ${d.get("nome")}.\n` +
-      `Empresa: ${d.get("empresa") || "—"}\n` +
-      `E-mail: ${d.get("email") || "—"}\n` +
-      `Preciso de: ${d.get("assunto")}\n\n` +
-      `Contexto: ${d.get("mensagem")}`;
+      `${T.formSaudacao} ${d.get("nome")}.\n` +
+      `${T.formEmpresa}: ${d.get("empresa") || "—"}\n` +
+      `${T.formEmail}: ${d.get("email") || "—"}\n` +
+      `${T.formAssunto}: ${d.get("assunto")}\n\n` +
+      `${T.formContexto}: ${d.get("mensagem")}`;
     window.open(wppLink(texto), "_blank", "noopener");
   });
 }
@@ -622,6 +684,7 @@ function anoAtual() {
 /* ---------------------------------------------------------------- */
 document.addEventListener("DOMContentLoaded", () => {
   aplicarContatos();
+  iniciarIdioma();
   iniciarNav();
   iniciarHero();
   iniciarMalha3D(document.querySelector("#malha3d"));

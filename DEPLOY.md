@@ -35,6 +35,9 @@ vercel --prod
 Cada deploy fica salvo; para reverter, use **Deployments → Promote/Rollback**
 no painel da Vercel.
 
+> O site tem duas versões (PT na raiz, EN em `/en`). O `build.py` gera as duas,
+> então rode-o sempre que mexer em `_src/` e **commite também a pasta `en/`**.
+
 ## Domínio
 
 O site já responde em `oberfritz-site.vercel.app`. Para usar o domínio próprio, no painel: **Project → Settings → Domains**. Cadastre `oberfritz.com.br` e
@@ -49,4 +52,11 @@ Vercel. O `www` redireciona (301) para a raiz via `vercel.json`.
 - [ ] `/`, `/quem-somos`, `/produtos`, `/planos`, `/contato` abrem
 - [ ] Uma URL inexistente mostra a página 404 do site
 - [ ] `/_src/produtos.body.html` retorna 404
-- [ ] `/sitemap.xml` responde
+- [ ] `/sitemap.xml` responde e lista as URLs em português e em inglês
+- [ ] `/en`, `/en/about`, `/en/services`, `/en/projects`, `/en/pricing`, `/en/contact` abrem
+- [ ] Redirecionamento por idioma (só a home `/`), testando num deploy de preview:
+  - `curl -sI -H "Accept-Language: en-US,en;q=0.9" <url>/` → `307` com `location: /en`
+  - `curl -sI -H "Accept-Language: pt-BR,pt;q=0.9,en;q=0.8" <url>/` → `200`
+  - `curl -sI <url>/` (sem o header) → `200`
+  - `curl -sI -H "Accept-Language: en" -H "Cookie: lang=pt" <url>/` → `200`
+  - `curl -sI -H "Cookie: lang=en" <url>/` → `307` com `location: /en`

@@ -103,7 +103,10 @@ produtos.html         Detalhe das 6 frentes de solução
 projetos.html         Repertório: sistemas reais abertos ao vivo no visor
 planos.html           Modelos de contratação + comparativo + FAQ
 contato.html          Formulário que abre o WhatsApp preenchido
-404.html              Página de erro (noindex)
+404.html              Página de erro (noindex, só em português)
+
+en/                   Versão em inglês (gerada pelo build — não edite aqui)
+  index.html          Home          · about · services · projects · pricing · contact
 
 assets/css/style.css  Estilo único do site
 assets/js/site.js     Hero com scroll, malha 3D, carrossel 3D, formulário
@@ -111,8 +114,11 @@ assets/img/           Logo, mascote Fritz e foto profissional
 assets/img/projetos/  Capturas de tela dos sistemas exibidos (1280×800, .webp)
 
 _src/                 Fonte das páginas internas + script de build
-  build.py            Gera as páginas internas, o sitemap e injeta meta tags
-  *.body.html         Corpo de cada página interna
+  build.py            Gera as páginas PT e EN, o sitemap e injeta meta tags/hreflang
+  *.body.html         Corpo de cada página interna (português)
+  en/                 Fonte da versão em inglês
+    _nav.html         Menu em inglês        _footer.html  Rodapé em inglês
+    *.body.html       index, about, services, projects, pricing, contact
 
 vercel.json           Cabeçalhos, cache, URLs limpas e redirect www (Vercel)
 .vercelignore         Arquivos que não vão no deploy pela CLI
@@ -154,8 +160,33 @@ geradas a partir de `_src/*.body.html`, reaproveitando o menu e o rodapé do
 python3 _src/build.py
 ```
 
-O script também regenera o `sitemap.xml` e injeta `canonical` e Open Graph em cada
-página. **Editar os `.html` finais direto funciona, mas o próximo build sobrescreve.**
+O script também regenera o `sitemap.xml` e injeta `canonical`, Open Graph e `hreflang`
+em cada página. **Editar os `.html` finais direto funciona, mas o próximo build sobrescreve.**
+
+### Versão em inglês
+
+O site existe em dois idiomas, cada um com a sua URL: português na raiz (`/`) e
+inglês em `/en`. A fonte do inglês fica em `_src/en/` e o build gera `en/*.html`.
+
+| Português | Inglês |
+|---|---|
+| `index.html` (escrito à mão) | `_src/en/index.body.html` → `en/index.html` |
+| `quem-somos` · `produtos` · `projetos` · `planos` · `contato` | `about` · `services` · `projects` · `pricing` · `contact` |
+
+- **Todo texto novo ou alterado precisa ser editado nos dois idiomas.** O par de cada
+  página está no dicionário `PARES` do `build.py`; ao criar uma página nova, adicione-a lá.
+- A `index.html` (português) é a fonte do menu e do rodapé em PT; o menu e o rodapé em
+  inglês ficam em `_src/en/_nav.html` e `_src/en/_footer.html`.
+- Os textos que o JavaScript injeta (visor de projetos, mensagem do WhatsApp, formulário)
+  ficam no objeto `TEXTOS` de `assets/js/site.js`, escolhidos pelo `<html lang>`.
+- O botão **PT / EN** do menu leva à página equivalente e grava o cookie `lang`.
+- A 404 existe só em português.
+
+**Redirecionamento automático** (`vercel.json`): quem abre a home `/` com um navegador
+que **não** tem português entre os idiomas preferidos vai para `/en` (307, temporário).
+O cookie `lang` — gravado pelo botão PT/EN — vence a detecção. Só a home é redirecionada;
+links diretos para qualquer página continuam abrindo exatamente a página pedida, e quem
+não envia `Accept-Language` (como robôs de busca) permanece no português.
 
 ### Dados de contato
 
