@@ -61,6 +61,47 @@ O site existe para cumprir quatro funções de negócio:
 
 ---
 
+## Capturas de tela
+
+<div align="center">
+
+**Home** — hero com malha 3D desenhada em canvas
+
+<img src="docs/screenshots/home.png" alt="Home do site OberFritz" width="860">
+
+</div>
+
+<table>
+  <tr>
+    <td width="50%" valign="top">
+      <b>Produtos</b> — as 6 frentes de solução<br><br>
+      <img src="docs/screenshots/produtos.png" alt="Página de produtos">
+    </td>
+    <td width="50%" valign="top">
+      <b>Planos</b> — modelos de contratação e comparativo<br><br>
+      <img src="docs/screenshots/planos.png" alt="Página de planos">
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <b>Projetos</b> — sistemas reais abertos ao vivo no visor<br><br>
+      <img src="docs/screenshots/projetos.png" alt="Página de projetos">
+    </td>
+    <td width="50%" valign="top">
+      <b>Quem somos</b> — perfil, competências e trajetória<br><br>
+      <img src="docs/screenshots/quem-somos.png" alt="Página quem somos">
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" valign="top">
+      <b>Contato</b> — formulário que abre o WhatsApp já preenchido<br><br>
+      <img src="docs/screenshots/contato.png" alt="Página de contato">
+    </td>
+  </tr>
+</table>
+
+---
+
 ## Para quem trabalhamos
 
 Pequenas e médias empresas que chegaram no limite do controle manual — tipicamente
