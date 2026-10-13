@@ -65,6 +65,12 @@ O site existe para cumprir quatro funções de negócio:
 
 <div align="center">
 
+<img src="docs/screenshots/site-demo.gif" alt="Navegação pelo site OberFritz: home, produtos, projetos e planos" width="720">
+
+<sub>O site em funcionamento — home, produtos, projetos e planos.</sub>
+
+<br><br>
+
 **Home** — hero com malha 3D desenhada em canvas
 
 <img src="docs/screenshots/home.png" alt="Home do site OberFritz" width="860">
