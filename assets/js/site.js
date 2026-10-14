@@ -254,10 +254,15 @@ function iniciarMalha3D(canvas) {
     const r = canvas.getBoundingClientRect();
     W = Math.max(r.width, 1);
     H = Math.max(r.height, 1);
-    canvas.width = W * dpr;
-    canvas.height = H * dpr;
+    const bw = Math.round(W * dpr), bh = Math.round(H * dpr);
+    if (canvas.width === bw && canvas.height === bh) return;
+    canvas.width = bw; // redimensionar limpa o canvas…
+    canvas.height = bh;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    // …então redesenha na hora, antes do paint, senão o quadro sai em branco (pisca)
+    if (pronto) desenhar(false);
   }
+  let pronto = false;
   medir();
   // o console cresce com o scroll: o buffer do canvas acompanha o tamanho real,
   // senão o render é esticado pelo CSS e fica borrado/distorcido
@@ -287,7 +292,11 @@ function iniciarMalha3D(canvas) {
   function quadro() {
     requestAnimationFrame(quadro);
     if (!rodando) return;
-    tempo += reduzMovimento ? 0.0008 : 0.0038;
+    desenhar(true);
+  }
+
+  function desenhar(avancar) {
+    if (avancar) tempo += reduzMovimento ? 0.0008 : 0.0038;
 
     const escala = Math.min(W, H) * 0.48;
     const cx = W / 2;
@@ -370,7 +379,7 @@ function iniciarMalha3D(canvas) {
 
     // pacotes viajando
     for (const pk of pacotes) {
-      pk.t += pk.v;
+      if (avancar) pk.t += pk.v;
       if (pk.t > 1) {
         pk.t = 0;
         pk.e = Math.floor(Math.random() * arestas.length);
@@ -388,6 +397,7 @@ function iniciarMalha3D(canvas) {
       ctx.shadowBlur = 0;
     }
   }
+  pronto = true;
   quadro();
 }
 
