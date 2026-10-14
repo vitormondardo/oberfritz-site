@@ -248,29 +248,28 @@ function iniciarMalha3D(canvas) {
     v: 0.0025 + Math.random() * 0.004
   }));
 
+  // O canvas tem tamanho FIXO (a viewport) e fica centralizado dentro do console,
+  // que apenas o recorta (overflow:hidden). Assim o buffer nunca é realocado
+  // durante o scroll — realocar a cada frame era o que fazia o círculo piscar.
+  const console3d = canvas.parentElement;
   let W = 0, H = 0, dpr = 1;
   function medir() {
     dpr = Math.min(window.devicePixelRatio || 1, 2);
-    const r = canvas.getBoundingClientRect();
-    W = Math.max(r.width, 1);
-    H = Math.max(r.height, 1);
-    const bw = Math.round(W * dpr), bh = Math.round(H * dpr);
-    if (canvas.width === bw && canvas.height === bh) return;
-    canvas.width = bw; // redimensionar limpa o canvas…
-    canvas.height = bh;
+    const w = window.innerWidth;
+    // altura nunca encolhe (barra de endereço no mobile), a menos que a largura mude
+    const h = w === W ? Math.max(window.innerHeight, H) : window.innerHeight;
+    if (w === W && h === H) return;
+    W = w; H = h;
+    canvas.style.width = W + "px";
+    canvas.style.height = H + "px";
+    canvas.width = Math.round(W * dpr);
+    canvas.height = Math.round(H * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    // …então redesenha na hora, antes do paint, senão o quadro sai em branco (pisca)
     if (pronto) desenhar(false);
   }
   let pronto = false;
   medir();
-  // o console cresce com o scroll: o buffer do canvas acompanha o tamanho real,
-  // senão o render é esticado pelo CSS e fica borrado/distorcido
-  if ("ResizeObserver" in window) {
-    new ResizeObserver(medir).observe(canvas);
-  } else {
-    window.addEventListener("resize", medir);
-  }
+  window.addEventListener("resize", medir);
 
   let rodando = true;
   const io = new IntersectionObserver(
@@ -298,10 +297,13 @@ function iniciarMalha3D(canvas) {
   function desenhar(avancar) {
     if (avancar) tempo += reduzMovimento ? 0.0008 : 0.0038;
 
-    const escala = Math.min(W, H) * 0.48;
+    // tamanho visível do console (ele cresce com o scroll); o canvas só é recortado
+    const vw = console3d.clientWidth || W;
+    const vh = console3d.clientHeight || H;
+    const escala = Math.min(vw, vh) * 0.48;
     const cx = W / 2;
     // com o console em tela cheia, sobe a esfera para não ficar atrás do texto
-    const cy = H * (0.5 - 0.1 * Math.min(Math.max((H - 450) / 300, 0), 1));
+    const cy = H / 2 - vh * 0.1 * Math.min(Math.max((vh - 450) / 300, 0), 1);
     const yaw = tempo + mouseX;
     const pitch = Math.sin(tempo * 0.6) * 0.22 + mouseY;
     const cy1 = Math.cos(yaw), sy1 = Math.sin(yaw);
