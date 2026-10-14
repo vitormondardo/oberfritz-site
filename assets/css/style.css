@@ -326,12 +326,12 @@ p:last-child{margin-bottom:0}
 
 /* a “mídia” que expande: um console com render 3D ao vivo */
 .hero__media{
-  position:relative;z-index:3;
-  width:44vw;height:34vh;border-radius:var(--r);overflow:hidden;
-  border:1px solid var(--fio-2);
+  position:absolute;inset:0;z-index:3;overflow:hidden;
   background:#02100B;
-  box-shadow:0 44px 130px -34px rgba(0,0,0,.9);
-  will-change:width,height,border-radius;
+  /* o recorte (clip-path) é animado pelo JS; largura/altura nunca mudam,
+     então não há relayout nem realocação de camada durante o scroll */
+  clip-path:inset(33% 28% 33% 28% round 3px);
+  will-change:clip-path;
 }
 .hero__media canvas{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:block}
 
@@ -1141,7 +1141,6 @@ body.visor-aberto{overflow:hidden}
   .nav__links,.nav__cta{display:none}
   .nav__burger{display:flex}
   .hero{height:280vh}
-  .hero__media{width:78vw;height:26vh}
   .hero__title{gap:0;flex-direction:column;line-height:.9}
   .hero__sticky::before,.hero__sticky::after{display:none}
   .problemas__list{grid-template-columns:1fr}

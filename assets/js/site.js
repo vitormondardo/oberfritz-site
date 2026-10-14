@@ -78,6 +78,8 @@ function iniciarIdioma() {
   );
 }
 
+// tamanho visível do console do hero (escrito por iniciarHero, lido pela malha 3D)
+const caixaHero = { w: 0, h: 0 };
 const reduzMovimento = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 /* ---------------------------------------------------------------- */
@@ -142,6 +144,7 @@ function iniciarHero() {
   if (!hero) return;
 
   const media = hero.querySelector(".hero__media");
+  const sticky = hero.querySelector(".hero__sticky");
   const titulo = hero.querySelector(".hero__title");
   const t1 = hero.querySelector(".t-1");
   const t2 = hero.querySelector(".t-2");
@@ -164,11 +167,19 @@ function iniciarHero() {
 
     const largura0 = vw < 720 ? vw * 0.78 : vw * 0.44;
     const altura0 = vw < 720 ? vh * 0.26 : vh * 0.34;
-    media.style.width = largura0 + (vw - largura0) * e + "px";
-    media.style.height = altura0 + (vh - altura0) * e + "px";
-    media.style.borderRadius = 3 * (1 - e) + "px";
-    media.style.borderColor = `rgba(132,235,181,${0.22 * (1 - e)})`;
-    if (chrome) chrome.style.opacity = String(1 - Math.min(e * 1.6, 1));
+    const w = largura0 + (vw - largura0) * e;
+    const h = altura0 + (vh - altura0) * e;
+    const sw = sticky.clientWidth || vw, sh = sticky.clientHeight || vh;
+    const ix = Math.max((sw - w) / 2, 0), iy = Math.max((sh - h) / 2, 0);
+    caixaHero.w = w;
+    caixaHero.h = h;
+    media.style.clipPath = `inset(${iy}px ${ix}px round ${3 * (1 - e)}px)`;
+    if (chrome) {
+      chrome.style.top = iy + "px";
+      chrome.style.left = ix + "px";
+      chrome.style.right = ix + "px";
+      chrome.style.opacity = String(1 - Math.min(e * 1.6, 1));
+    }
 
     // título se abre para os lados e some no fim
     const desl = vw < 720 ? 0 : Math.min(vw * 0.26, 420) * e;
@@ -251,7 +262,6 @@ function iniciarMalha3D(canvas) {
   // O canvas tem tamanho FIXO (a viewport) e fica centralizado dentro do console,
   // que apenas o recorta (overflow:hidden). Assim o buffer nunca é realocado
   // durante o scroll — realocar a cada frame era o que fazia o círculo piscar.
-  const console3d = canvas.parentElement;
   let W = 0, H = 0, dpr = 1;
   function medir() {
     dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -298,8 +308,8 @@ function iniciarMalha3D(canvas) {
     if (avancar) tempo += reduzMovimento ? 0.0008 : 0.0038;
 
     // tamanho visível do console (ele cresce com o scroll); o canvas só é recortado
-    const vw = console3d.clientWidth || W;
-    const vh = console3d.clientHeight || H;
+    const vw = caixaHero.w || W;
+    const vh = caixaHero.h || H;
     const escala = Math.min(vw, vh) * 0.48;
     const cx = W / 2;
     // com o console em tela cheia, sobe a esfera para não ficar atrás do texto
