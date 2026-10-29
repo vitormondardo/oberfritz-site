@@ -847,7 +847,9 @@ body.visor-aberto{overflow:hidden}
 .pmock .bars{height:96px;margin-bottom:14px}
 .page-hero--mock{--fritz-w:min(380px,32vw)}
 .page-hero__mock{
-  position:absolute;right:max(2vw,calc((100vw - min(var(--max),91vw)) / 2));bottom:56px;
+  /* alinhado pela borda do .wrap (100% = largura útil, sem a barra de rolagem) e centrado na área abaixo do menu */
+  position:absolute;right:calc((100% - min(var(--max),91vw)) / 2);
+  top:calc(50% + var(--nav-h) / 2);transform:translateY(-50%);
   width:var(--fritz-w);z-index:0;pointer-events:none;
 }
 .manifesto__visual{position:relative;display:grid;place-items:center}
